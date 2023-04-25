@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TodoList extends Model
+class Item extends Model
 {
     use HasFactory;
 
@@ -15,22 +15,16 @@ class TodoList extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id'
+        'todo_list_id',
+        'name',
+        'content',
     ];
 
     /**
-     * Get the user that owns the todo list.
+     * Get the todo list that this item belongs to.
      */
-    public function user()
+    public function todoList()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Get the items for the todo list.
-     */
-    public function items()
-    {
-        return $this->hasMany(Item::class);
+        return $this->belongsTo(TodoList::class);
     }
 }
