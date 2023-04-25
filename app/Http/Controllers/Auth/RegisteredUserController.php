@@ -42,6 +42,7 @@ class RegisteredUserController extends Controller
             $is_adult_formatted = true;
         }
 
+        // create user
         $user = User::create([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
@@ -49,6 +50,9 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'is_adult' => $is_adult_formatted,
         ]);
+
+        // create user's todo list
+        $user->todoList()->create();
 
         event(new Registered($user));
 

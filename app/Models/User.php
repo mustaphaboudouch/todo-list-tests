@@ -42,4 +42,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the user's todo list.
+     */
+    public function todoList()
+    {
+        return $this->hasOne(TodoList::class);
+    }
 }
