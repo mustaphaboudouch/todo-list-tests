@@ -44,14 +44,16 @@ class ItemController extends Controller
         }
 
         // validate item creating date
-        $item = $todoList->items()->orderBy('created_at', 'DESC')->first();
-        $now = Carbon::now();
-        $diff = $now->diffInMinutes($item->created_at);
-        $rest = 30 - $diff;
+        if ($todoList->items()->count() > 0) {
+            $item = $todoList->items()->orderBy('created_at', 'DESC')->first();
+            $now = Carbon::now();
+            $diff = $now->diffInMinutes($item->created_at);
+            $rest = 30 - $diff;
 
-        if ($diff < 30) {
-            return redirect()->route('items.index')
-                ->with('status', 'Wait for ' .  $rest . ' min.');
+            if ($diff < 30) {
+                return redirect()->route('items.index')
+                    ->with('status', 'Wait for ' .  $rest . ' min.');
+            }
         }
 
         $request->validate([

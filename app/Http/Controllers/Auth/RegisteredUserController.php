@@ -52,7 +52,9 @@ class RegisteredUserController extends Controller
         ]);
 
         // create user's todo list
-        $user->todoList()->create();
+        if ($user->is_adult) {
+            $user->todoList()->create();
+        }
 
         event(new Registered($user));
 
