@@ -35,15 +35,19 @@ class RegisteredUserController extends Controller
             'lastname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'is_adult' => ['boolean'],
         ]);
+
+        $is_adult_formatted = false;
+        if ($request->is_adult === 'on') {
+            $is_adult_formatted = true;
+        }
 
         $user = User::create([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'is_adult' => $request->is_adult,
+            'is_adult' => $is_adult_formatted,
         ]);
 
         event(new Registered($user));
