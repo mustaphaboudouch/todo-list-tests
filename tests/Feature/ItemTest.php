@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Item;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -238,5 +239,34 @@ class ItemTest extends TestCase
             ]);
 
         $this->assertDatabaseCount('items', 10);
+    }
+
+    public function test_user_must_wait_30min_before_create_item(): void
+    {
+        $this->post('/register', [
+            'firstname' => 'Mustapha',
+            'lastname' => 'Boudouch',
+            'email' => 'test@example.com',
+            'password' => 'Abcd1234',
+            'is_adult' => true,
+        ]);
+
+        $user = User::where('email', 'test@example.com')->first();
+
+        $this->actingAs($user)
+            ->post('/items', [
+                'name' => 'item1',
+                'content' => 'Item content 1',
+                'todo_list_id' => $user->todoList->id,
+            ]);
+
+        $this->actingAs($user)
+            ->post('/items', [
+                'name' => 'item2',
+                'content' => 'Item content 2',
+                'todo_list_id' => $user->todoList->id,
+            ]);
+
+        $this->assertDatabaseCount('items', 1);
     }
 }
