@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register.handle') }}">
         @csrf
 
         <!-- First Name -->
@@ -47,8 +47,9 @@
             <label for="is_adult" class="inline-flex items-center">
                 <input id="is_adult" type="checkbox"
                     class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="is_adult" />
-                <span class="ml-2 text-sm text-gray-600">{{ __('Is Adult ?') }}</span>
+                <span class="ml-2 text-sm text-gray-600">{{ __('I am 13 or older') }}</span>
             </label>
+            <x-input-error :messages="$errors->get('is_adult')" />
         </div>
 
         <div class="flex items-center justify-end mt-4">
