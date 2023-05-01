@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\EmailSenderService;
 use App\Models\Item;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -66,9 +67,9 @@ class ItemController extends Controller
             'content' => $request->content,
         ]);
 
-        // warn user that remains only 2 items to create
+        // Mock: warn user that remains only 2 items to create
         if ($todoList->items()->count() === 8) {
-            // send email to user
+            EmailSenderService::sendEmail();
         }
 
         return redirect()->route('items.index')
