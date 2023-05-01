@@ -34,3 +34,5 @@ If you want to run the project on your own, please follow these steps :
 1. UserTest : `tests/Feature/UserTest.php`
 2. TodListTest : `tests/Feature/TodoListTest.php`
 3. ItemTest : `tests/Feature/ItemTest.php`
+
+⚠ Note : we use `RefreshDatabase` trait to refresh the database after each test
