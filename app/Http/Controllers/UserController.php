@@ -29,7 +29,14 @@ class UserController extends Controller
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'confirmed'],
+            'password' => [
+                'required',
+                'min:8',
+                'max:40',
+                'regex:/[a-z]/',    // must contain at least one lowercase letter
+                'regex:/[A-Z]/',    // must contain at least one uppercase letter
+                'regex:/[0-9]/',    // must contain at least one digit
+            ],
             'is_adult' => ['accepted'],
         ]);
 
@@ -98,6 +105,6 @@ class UserController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('users.login');
+        return redirect()->route('login');
     }
 }
