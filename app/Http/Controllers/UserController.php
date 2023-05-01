@@ -40,18 +40,12 @@ class UserController extends Controller
             'is_adult' => ['accepted'],
         ]);
 
-        $is_adult_formatted = false;
-        if ($request->is_adult === 'on') {
-            $is_adult_formatted = true;
-        }
-
         // create user
         $user = User::create([
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'email' => $request->email,
             'password' => $request->password,
-            'is_adult' => $is_adult_formatted,
         ]);
 
         // create user's todo list
