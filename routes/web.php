@@ -15,15 +15,11 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [UserController::class, 'handleLogin'])->name('login.handle');
 });
 
-Route::middleware(['auth', 'adult'])->group(function () {
+Route::middleware('auth')->group(function () {
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
 
     Route::get('/items', [ItemController::class, 'index'])->name('items.index');
     Route::get('/items/create', [ItemController::class, 'create'])->name('items.create');
     Route::post('/items', [ItemController::class, 'store'])->name('items.store');
     Route::get('/items/{item}', [ItemController::class, 'show'])->name('items.show');
-});
-
-Route::middleware('auth')->group(function () {
-    Route::view('/fallback', 'items.fallback')->name('items.fallback');
 });
